@@ -59,10 +59,10 @@ simpson<-diversity(urban.ab, index = "simpson")
 shannon<-diversity(urban.ab, index = "shannon")
 simpson
 shannon
-bray = vegdist(urban.ab, "bray")
-bray
-jaccard = vegdist(urban.ab, "jaccard", binary=T)
-jaccard
+braycounties = vegdist(urban.ab, "bray")
+braycounties
+jaccardcounties = vegdist(urban.ab, "jaccard", binary=T)
+jaccardcounties
 ```
 
 ```{r}
@@ -140,9 +140,9 @@ simpson<-diversity(wab, index = "simpson")
 shannon<-diversity(wab, index = "shannon")
 simpson
 shannon
-jaccard = vegdist(wab, "jaccard")
-jaccard
-bray = vegdist(wab, "bray")
-bray
+jaccardwab = vegdist(wab, "jaccard")
+jaccardwab
+braywab = vegdist(wab, "bray")
+braywab
 ```
 
