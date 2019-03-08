@@ -102,3 +102,47 @@ text(test.plot, "species", pch=21, col="red", bg="yellow")
 points(test.plot, "sites", col="blue", cex=0.9)
 ```
 
+```{r}
+bat=read.csv("plant-o-matic-25.csv")
+head(bat)
+tail(bat)
+speciesBat=bat$X.4
+speciesBat
+Bat_list=count(speciesBat)
+head(Bat_list)
+Bat_list=data.frame("LES", Bat_list)
+names(Bat_list)<-c("ListID", "SpeciesID", "Freq")
+```
+```{r}
+bi=read.csv("welikia-25.csv")
+head(bi)
+tail(bi)
+speciesBi=bat$X.4
+speciesBi
+Bi_list=count(speciesBi)
+head(Bi_list)
+Bi_list=data.frame("LES", Bi_list)
+names(Bi_list)<-c("ListID", "SpeciesID", "Freq")
+```
+
+```{r}
+#And if I combine my two lists into one
+iru=rbind(Bat_list, Bi_list)
+iru
+dim(iru)
+#And run the matrify function
+wab=matrify(iru)
+wab
+```
+
+```{r}
+simpson<-diversity(wab, index = "simpson")
+shannon<-diversity(wab, index = "shannon")
+simpson
+shannon
+jaccard = vegdist(wab, "jaccard")
+jaccard
+bray = vegdist(wab, "bray")
+bray
+```
+
