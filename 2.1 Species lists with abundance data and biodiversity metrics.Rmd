@@ -23,7 +23,7 @@ I asked for the variable length, which is 23. That tells us that there are 23 in
 
 ```{r}
 #Now we want to figure out something about abundances within species. Let's figure out, simply by counting,  how many individuals there are of each species. This is a measure of the abundance of each species. For this, we use the function "count" which is in a package called PLYR, which we must first load. Once that's done,  we create a new variable which has the count of each species
-#library(plyr)
+library(plyr)
 one
 one.ab=count(one)
 one.ab
@@ -115,7 +115,7 @@ Q         0     0/23 = 0          0        0
 You can try doing a similar calculation for Sample "three" and then compare to the values obtained from R using the VEGAN package
 
 ```{r}
-#library(vegan)
+library(vegan)
 abundance
 shannon<-diversity(abundance, index = "shannon")
 shannon
@@ -338,7 +338,7 @@ In other words, two or more samples with a similar species composition and speci
 ## Switching to real species data: County occurrence data from BIEN
 
 ```{r}
-#library("bien")
+library("BIEN")
 #As you know, you can obtain species occurrence data from the BIEN database, or from another even more comprehensive data base called gbif (gbif.org). Occurrence data is a type of abundance data, and it can also be used to figure out presence-absence data. 
 bronx <- BIEN_occurrence_county(country="United States", state="New York", county = "Bronx")
 head(bronx)

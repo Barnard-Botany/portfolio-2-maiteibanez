@@ -1,0 +1,104 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library("BIEN")
+ 
+alameda <- BIEN_occurrence_county(country="United States", state="California", county = "Alameda")
+head(alameda)
+tail(alameda)
+contra_costa <- BIEN_occurrence_county(country="United States", state="California", county = "Contra Costa")
+head(contra_costa)
+tail(contra_costa)
+attributes(contra_costa)
+napa <- BIEN_occurrence_county(country="United States", state="California", county = "Napa")
+head(napa)
+tail(napa)
+attributes(napa)
+```
+
+
+
+```{r}
+library(plyr)
+library(labdsv)
+library(vegan)
+alameda.occ=alameda[c(1)]
+head(alameda.occ)
+contra_costa.occ=contra_costa[c(1)]
+head(contra_costa.occ)
+napa.occ=napa[c(1)]
+head(napa.occ)
+alameda.ab=count(alameda.occ)
+head(alameda.ab)
+contra_costa.ab=count(contra_costa.occ)
+head(contra_costa.ab)
+napa.ab=count(napa.occ)
+head(napa.ab)
+alameda.ab=data.frame("alameda", alameda.ab)
+head(alameda.ab)
+names(alameda.ab)<-c("ListID", "SpeciesID", "Freq")
+head(alameda.ab)
+contra_costa.ab=data.frame("contra_costa", contra_costa.ab)
+head(contra_costa.ab)
+names(contra_costa.ab)<-c("ListID", "SpeciesID", "Freq")
+head(contra_costa.ab)
+napa.ab=data.frame("napa", napa.ab)
+head(napa.ab)
+names(napa.ab)<-c("ListID", "SpeciesID", "Freq")
+head(napa.ab)
+threecounty.ab=rbind(alameda.ab, contra_costa.ab, napa.ab)
+head(threecounty.ab)
+tail(threecounty.ab)
+dim(threecounty.ab)
+urban.ab<-matrify(threecounty.ab)
+urban.ab
+dim(urban.ab)
+simpson<-diversity(urban.ab, index = "simpson")
+shannon<-diversity(urban.ab, index = "shannon")
+simpson
+shannon
+bray = vegdist(urban.ab, "bray")
+bray
+jaccard = vegdist(urban.ab, "jaccard", binary=T)
+jaccard
+```
+
+```{r}
+accurve<-specaccum(urban.ab, method="random", permutations=100)
+plot(accurve$sites, accurve$richness,
+     xlab="Number of Sites",
+     ylab="Species Richness",
+     main="Now with three samples, random order")
+accurve2<-specaccum(urban.ab, method="collector", permutations=100)
+plot(accurve2$sites, accurve$richness,
+     xlab="Number of Sites",
+     ylab="Species Richness",
+     main="As encountered, with three samples")
+```
+
+```{r}
+head(urban.ab)
+example_NMDS=metaMDS(urban.ab, k=2) # Our community-by-species matrix 
+# K=2 is setting the number of reduced dimensions. Increase if high stress is problem. 
+#"The stress, or the disagreement between 2-D configuration and predicted values from the regression"
+
+#A good rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation
+
+plot(example_NMDS)
+test.plot<-ordiplot(example_NMDS,type="n") #Ordination plot function especially for congested plots
+points(test.plot, "species", pch=21, col="red", bg="yellow")
+
+test.plot<-ordiplot(example_NMDS,type="n") #Ordination plot function especially for congested plots
+points(test.plot, "sites", col="blue", cex=0.9)
+
+test.plot<-ordiplot(example_NMDS,type="n") #Ordination plot function especially for congested plots
+points(test.plot, "species", pch=21, col="red", bg="yellow")
+text(test.plot, "sites", col="blue", cex=0.9)
+
+test.plot<-ordiplot(example_NMDS,type="n") #Ordination plot function especially for congested plots
+text(test.plot, "species", pch=21, col="red", bg="yellow")
+points(test.plot, "sites", col="blue", cex=0.9)
+```
+
